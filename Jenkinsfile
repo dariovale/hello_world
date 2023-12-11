@@ -35,6 +35,7 @@ pipeline {
                     sh 'docker push darioalberto364@outlook.com/my-app'
                 }
             }
+    }
         
         
     }
