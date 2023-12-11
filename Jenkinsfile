@@ -18,21 +18,12 @@ environment {
             steps {
                 echo 'Building...'
                 sh 'npm install'
-                sh 'docker build -t v9lent1n9/dariopiphelloworld .'
+          
             }
         }
 
-stage('Login') {
-      steps {
-       sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-      }
-    }
 
-         stage('Push') {
-      steps {
-        sh 'docker push v9lent1n9/dariopiphelloworld'
-      }
-    }
+
 
 
         
