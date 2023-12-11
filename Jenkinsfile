@@ -23,19 +23,31 @@ pipeline {
             }
         } 
 
-    stage('Deploy') {
-            steps {
-                echo 'DEPLOYING...'
-                // Specify the Docker Hub registry
-                docker.withRegistry('', '203314de-f2e5-4e61-9d3e-db3e331cbde9') {
-                    // Tag the Docker image with the Docker Hub username
-                    sh 'docker tag my-app darioalberto364@outlook.com/my-app'
 
-                    // Push the Docker image to the Docker Hub registry
-                    sh 'docker push darioalberto364@outlook.com/my-app'
-                }
+        
+stage('Push') {
+
+    steps {
+
+        // Replace 'DOCKER_HUB_CREDENTIALS' with the ID of your credentials in Jenkins
+
+        withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+
+            withEnv(['DOCKER_IMAGE_NAME=dariopiphelloworld-image', 'DOCKER_IMAGE_TAG=1.0']) {
+
+                sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+
+                sh 'docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG'
+
+                sh 'docker push $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG'
+
             }
+
+       }
+
     }
+
+}
         
         
     }
