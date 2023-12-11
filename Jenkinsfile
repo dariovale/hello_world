@@ -7,12 +7,28 @@ pipeline {
             image 'node'
             args '-u root'
         }
+
+        
+        node {   
+    stage('Clone repository') {
+        git credentialsId: 'git', url: 'https://github.com/Monishamacharla/reactapp'
     }
+    
+    stage('Build image') {
+       dockerImage = docker.build("monishavasu/my-react-app:latest")
+    }
+    
+ stage('Push image') {
+        withDockerRegistry([ credentialsId: "dockerhubaccount", url: "" ]) {
+        dockerImage.push()
+        }
+    }    
+}
 
-environment {
-    DOCKERHUB_CREDENTIALS = credentials('203314de-f2e5-4e61-9d3e-db3e331cbde9')
-  }
 
+
+        
+    }
     stages {
         stage('Build') {
             steps {
@@ -20,13 +36,7 @@ environment {
                 sh 'npm install'
           
             }
-        }
-
-
-
-
-
-        
+        }        
         stage('Test') {
             steps {
                 echo 'Testing...'
