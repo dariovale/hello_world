@@ -30,17 +30,34 @@ pipeline {
 
         stage('Cloning our Git') {
                 steps {
-                        git 'https://github.com/YourGithubAccount/YourGithubRepository.git'
+                        git 'https://github.com/dariovale/hello_world.git'
                     }
                 }
-        
 
-stage('CREATE DOCKER IMG') {
-            steps {
-                echo 'CREATING IMG...'
-              sh 'docker build -t v9lent1n9/dariopiphelloworld .'
+
+        stage('Building our image') {
+                steps{
+                        script {
+                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                                }
+                        }
+                }
+
+        stage('Deploy our image') {
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                        }
+                    }
+                }
+             }
+            stage('Cleaning up') {
+                    steps{
+                        sh "docker rmi $registry:$BUILD_NUMBER"
+                        }
             }
-        } 
+        
         
         
     }
