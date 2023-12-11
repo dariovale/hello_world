@@ -31,6 +31,29 @@ pipeline {
             }
             
         }
+
+               stage('Build image') {
+            steps {
+                echo 'BUILDING IMAGE...'
+                script {
+                dockerImage = docker.build("v9lent1n9/dariopiphelloworld:latest")
+                }
+            }
+            
+        }
+
+
+                  stage('PUSH image') {
+            steps {
+                echo 'PUSHING IMAGE...'
+                script {
+               withDockerRegistry([ credentialsId: "203314de-f2e5-4e61-9d3e-db3e331cbde9", url: "" ]) {
+        dockerImage.push()
+        }
+                }
+            }
+            
+        }
         
     }
 }
