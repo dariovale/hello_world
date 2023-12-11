@@ -8,7 +8,10 @@ pipeline {
             args '-u root'
         }
        
-    }    
+    }  
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('203314de-f2e5-4e61-9d3e-db3e331cbde9')
+  }
     stages {
         stage('Build') {
             steps {
@@ -27,7 +30,7 @@ pipeline {
 stage('CREATE DOCKER IMG') {
             steps {
                 echo 'CREATING IMG...'
-              sh 'docker build -t dariopiphelloworld:1.0.0 .'
+              sh 'docker build -t v9lent1n9/dariopiphelloworld .'
             }
         } 
         
