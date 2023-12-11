@@ -10,7 +10,7 @@ pipeline {
        
     }  
     environment {
-            registry = "v9lent1n9/dariopiphelloworld"
+            registry = "darioalberto364@outlook.com/dariopiphelloworld"
             registryCredential = '203314de-f2e5-4e61-9d3e-db3e331cbde9'
                 dockerImage = ''
   }
