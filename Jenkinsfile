@@ -36,7 +36,7 @@ pipeline {
             steps {
                 echo 'BUILDING IMAGE...'
                 script {
-                dockerImage = docker.build("v9lent1n9/dariopiphelloworld:latest")
+                dockerImage = docker.build("darioalberto364@outlook.com/dariopiphelloworld:latest")
                 }
             }
             
