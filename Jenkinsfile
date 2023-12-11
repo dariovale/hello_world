@@ -23,16 +23,18 @@ pipeline {
             }
         } 
 
-
-    stage('Build docker image') {
+    stage('Deploy') {
             steps {
-                 echo 'build docker image...'     
-                withEnv(['DOCKER_IMAGE_NAME=dariopiphelloworld','DOCKER_IMAGE_TAG=1.0'])
-                {
-                   sh 'docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .' 
-                }    
+                echo 'DEPLOYING...'
+                // Specify the Docker Hub registry
+                docker.withRegistry('', '203314de-f2e5-4e61-9d3e-db3e331cbde9') {
+                    // Tag the Docker image with the Docker Hub username
+                    sh 'docker tag my-app darioalberto364@outlook.com/my-app'
+
+                    // Push the Docker image to the Docker Hub registry
+                    sh 'docker push darioalberto364@outlook.com/my-app'
+                }
             }
-        }
         
         
     }
