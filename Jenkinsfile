@@ -10,7 +10,9 @@ pipeline {
        
     }  
     environment {
-    DOCKERHUB_CREDENTIALS = credentials('203314de-f2e5-4e61-9d3e-db3e331cbde9')
+            registry = "YourDockerhubAccount/YourRepository"
+            registryCredential = '203314de-f2e5-4e61-9d3e-db3e331cbde9'
+                dockerImage = ''
   }
     stages {
         stage('Build') {
@@ -26,6 +28,12 @@ pipeline {
             }
         } 
 
+        stage('Cloning our Git') {
+                steps {
+                        git 'https://github.com/YourGithubAccount/YourGithubRepository.git'
+                    }
+                }
+        
 
 stage('CREATE DOCKER IMG') {
             steps {
