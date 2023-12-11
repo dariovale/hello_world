@@ -24,10 +24,13 @@ pipeline {
         } 
 
 
-stage('Build docker image') {
+    stage('Build docker image') {
             steps {
-                // Assuming the Dockerfile is in the same directory as the Jenkinsfile
-                sh 'docker build -t dariopiphelloworld .'
+                 echo 'build docker image...'     
+                withEnv(['DOCKER_IMAGE_NAME=dariopiphelloworld':tagname,'DOCKER_IMAGE_TAG=1.0'])
+                {
+                   sh 'docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .' 
+                }    
             }
         }
         
