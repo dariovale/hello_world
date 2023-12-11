@@ -10,7 +10,7 @@ pipeline {
        
     }  
     environment {
-            registry = "YourDockerhubAccount/YourRepository"
+            registry = "v9lent1n9/dariopiphelloworld"
             registryCredential = '203314de-f2e5-4e61-9d3e-db3e331cbde9'
                 dockerImage = ''
   }
