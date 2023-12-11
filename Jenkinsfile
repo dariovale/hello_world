@@ -25,7 +25,7 @@ pipeline {
         stage('Clone repository') {
             steps {
                 echo 'cloning...'
-                scritp{
+                script {
                 git credentialsId: 'git', url: 'https://github.com/dariovale/hello_world.git'
                 }
             }
