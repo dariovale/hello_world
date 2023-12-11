@@ -31,7 +31,7 @@ stage('Push') {
 
         // Replace 'DOCKER_HUB_CREDENTIALS' with the ID of your credentials in Jenkins
 
-        withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+        withCredentials([usernamePassword(credentialsId: '203314de-f2e5-4e61-9d3e-db3e331cbde9', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
 
             withEnv(['DOCKER_IMAGE_NAME=dariopiphelloworld-image', 'DOCKER_IMAGE_TAG=1.0']) {
 
