@@ -28,13 +28,7 @@ pipeline {
             }
         } 
 
-        stage('Cloning our Git') {
-                steps {
-               
-                    git branch: 'main', credentialsId: 'afe2edbf-9b6c-4afc-aa6b-28bef61f7ef8', url: 'https://github.com/dariovale/hello_world.git'
-                    }
-                }
-
+       
 
         stage('Building our image') {
                 steps{
