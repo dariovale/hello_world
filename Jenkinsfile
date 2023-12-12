@@ -11,7 +11,7 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t darioalberto364@outlook.com/dariopiphelloworld:latest .'
+				sh 'docker build -t v9lent1n9/dariopiphelloworld:latest .'
 			}
 		}
 
@@ -25,7 +25,7 @@ pipeline{
 		stage('Push') {
 
 			steps {
-				sh 'docker push darioalberto364@outlook.com/dariopiphelloworld:latest'
+				sh 'docker push v9lent1n9/dariopiphelloworld:latest'
 			}
 		}
 	}
