@@ -1,27 +1,26 @@
-node {
-	def application = "dariopiphelloworld"
-	def dockerhubaccountid = "darioalberto364@outlook.com"
-	stage('Clone repository') {
-		checkout scm
-	}
+#!/usr/bin/env groovy
 
-	stage('Build image') {
-		app = docker.build("${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
-	}
+pipeline {
 
-	stage('Push image') {
-		withDockerRegistry([ credentialsId: "203314de-f2e5-4e61-9d3e-db3e331cbde9", url: "" ]) {
-		app.push()
-		app.push("latest")
-	}
-	}
+    agent {
+        docker {
+            image 'node'
+            args '-u root'
+        }
+    }
 
-	stage('Deploy') {
-		sh ("docker run -d -p 81:8080 -v /var/log/:/var/log/ ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
-	}
-	
-	stage('Remove old images') {
-		// remove docker pld images
-		sh("docker rmi ${dockerhubaccountid}/${application}:latest -f")
-   }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
+                sh 'npm test'
+            }
+        }
+    }
 }
