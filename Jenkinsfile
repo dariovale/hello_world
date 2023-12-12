@@ -1,59 +1,27 @@
-#!/usr/bin/env groovy
+node {
+	def application = "dariopiphelloworld"
+	def dockerhubaccountid = "darioalberto364@outlook.com"
+	stage('Clone repository') {
+		checkout scm
+	}
 
-pipeline {
+	stage('Build image') {
+		app = docker.build("${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
+	}
 
-    agent {
-        docker {
-            image 'node'
-            args '-u root'
-        }
-       
-    }  
-    environment {
-            registry = "darioalberto364@outlook.com/dariopiphelloworld"
-            registryCredential = '203314de-f2e5-4e61-9d3e-db3e331cbde9'
-                dockerImage = ''
-  }
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building...'
-                sh 'npm install'          
-            }
-        }        
-        stage('Test') {
-            steps {
-                echo 'Testing...'
-                sh 'npm test'
-            }
-        } 
+	stage('Push image') {
+		withDockerRegistry([ credentialsId: "203314de-f2e5-4e61-9d3e-db3e331cbde9", url: "" ]) {
+		app.push()
+		app.push("latest")
+	}
+	}
 
-       
-
-        stage('Building our image') {
-                steps{
-                        script {
-                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                                }
-                        }
-                }
-
-        stage('Deploy our image') {
-            steps{
-                script {
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                        }
-                    }
-                }
-             }
-            stage('Cleaning up') {
-                    steps{
-                        sh "docker rmi $registry:$BUILD_NUMBER"
-                        }
-            }
-        
-        
-        
-    }
+	stage('Deploy') {
+		sh ("docker run -d -p 81:8080 -v /var/log/:/var/log/ ${dockerhubaccountid}/${application}:${BUILD_NUMBER}")
+	}
+	
+	stage('Remove old images') {
+		// remove docker pld images
+		sh("docker rmi ${dockerhubaccountid}/${application}:latest -f")
+   }
 }
